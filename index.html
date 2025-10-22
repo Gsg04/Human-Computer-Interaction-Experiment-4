@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>人机交互实验问卷与采访</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HCI Experiment 4:Data collection from interviews and surveys during the National Day holiday</title>
   <style>
     body {
-      font-family: "Microsoft YaHei", sans-serif;
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
       margin: 0;
-      padding: 0;
       background: #f4f6fa;
       color: #333;
       scroll-behavior: smooth;
     }
-
     header {
       background: #2b5797;
       color: white;
@@ -23,34 +21,33 @@
       top: 0;
       z-index: 10;
     }
-
     nav a {
       color: white;
       margin: 0 1em;
       text-decoration: none;
       font-weight: bold;
     }
-
     section {
-      max-width: 800px;
+      max-width: 900px;
       margin: 2em auto;
       padding: 2em;
       background: white;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
     h1, h2 {
       text-align: center;
       color: #2b5797;
     }
-
+    h3 {
+      margin-top: 1.5em;
+      color: #1e3d73;
+    }
     form {
       display: flex;
       flex-direction: column;
       gap: 1em;
     }
-
     input, select, textarea, button {
       font-size: 1em;
       padding: 0.5em;
@@ -58,18 +55,18 @@
       border-radius: 6px;
       width: 100%;
     }
-
+    textarea {
+      resize: vertical;
+    }
     button {
       background-color: #2b5797;
       color: white;
       cursor: pointer;
       border: none;
+      padding: 0.8em;
+      border-radius: 8px;
     }
-
-    button:hover {
-      background-color: #1e3d73;
-    }
-
+    button:hover { background-color: #1e3d73; }
     footer {
       text-align: center;
       background: #2b5797;
@@ -82,83 +79,196 @@
 
 <body>
   <header>
-    <h1>人机交互实验</h1>
+    <h1>HCI Experiment 2: National Day Holiday Experience Study</h1>
     <nav>
-      <a href="#intro">项目介绍</a>
-      <a href="#survey">问卷调查</a>
-      <a href="#interview">采访问题</a>
+      <a href="#intro">Introduction</a>
+      <a href="#interview">Interview Form</a>
+      <a href="#survey">Survey Questionnaire</a>
     </nav>
   </header>
 
-  <!-- 项目介绍 -->
+  <!-- Project Intro -->
   <section id="intro">
-    <h2>项目介绍</h2>
+    <h2>Project Introduction</h2>
     <p>
-      本实验属于《人机交互》课程作业，旨在通过问卷与访谈的形式，
-      评估某系统或界面的可用性与用户体验，并提出改进建议。
+      This project is part of the Human-Computer Interaction course at Shandong University.
+      It explores people’s planning, experiences, and reflections regarding the National Day holiday.
+      The study includes a semi-structured interview and a questionnaire.
     </p>
-    <p>
-      本网页展示了实验背景、在线问卷与采访问题，收集的结果将用于统计分析与界面优化研究。
-    </p>
+    <p><b>Team Members:</b> Guan Huashi (202200130153), Zhang Qian (202218130262), Wang Mengkai (202200130158)</p>
   </section>
 
-  <!-- 问卷调查 -->
-  <section id="survey">
-    <h2>问卷调查</h2>
-    <form action="https://formspree.io/f/你的FormID" method="POST">
-      <label>1. 您的年龄：</label>
-      <input type="text" name="age" placeholder="请输入您的年龄" required>
+  <!-- Interview Form -->
+  <section id="interview">
+    <h2>Part 1: Semi-Structured Interview (Fillable Form)</h2>
+    <form action="https://formspree.io/f/yourFormID" method="POST">
+      <h3>Warm-up Questions</h3>
+      <label>1. Could you briefly introduce yourself (occupation, main hobbies)?</label>
+      <textarea name="intro_self" rows="3"></textarea>
 
-      <label>2. 您的性别：</label>
-      <select name="gender" required>
-        <option value="">请选择</option>
-        <option value="男">男</option>
-        <option value="女">女</option>
-        <option value="其他">其他</option>
-      </select>
+      <label>2. How do you usually spend your weekends or short holidays?</label>
+      <textarea name="weekends" rows="3"></textarea>
 
-      <label>3. 您使用电脑的频率：</label>
-      <select name="frequency">
-        <option>每天</option>
-        <option>每周数次</option>
-        <option>偶尔</option>
-      </select>
+      <h3>Theme 1: Holiday Planning & Decision-Making</h3>
+      <label>1. When did you start planning for this National Day holiday? What prompted you to start?</label>
+      <textarea name="plan_start" rows="3"></textarea>
 
-      <label>4. 您觉得系统界面是否易用？</label>
-      <div>
-        <label><input type="radio" name="ease" value="非常易用" required> 非常易用</label><br>
-        <label><input type="radio" name="ease" value="一般"> 一般</label><br>
-        <label><input type="radio" name="ease" value="难用"> 难用</label>
-      </div>
+      <label>2. What were the main factors you considered when deciding your plans? Which had the biggest influence?</label>
+      <textarea name="plan_factors" rows="3"></textarea>
 
-      <label>5. 其他建议：</label>
-      <textarea name="feedback" rows="4" placeholder="请输入您的意见或建议"></textarea>
+      <label>3. How did you gather ideas and information for your plans (friends, Xiaohongshu, Douyin)? Was it helpful?</label>
+      <textarea name="plan_info" rows="3"></textarea>
 
-      <button type="submit">提交问卷</button>
+      <label>4. If you traveled, how did you select your destination and means of transportation? Any difficulties?</label>
+      <textarea name="plan_difficulties" rows="3"></textarea>
+
+      <label>5. How much did family or friends influence your plans?</label>
+      <textarea name="plan_social" rows="3"></textarea>
+
+      <h3>Theme 2: Actual Experiences & Interactions During the Holiday</h3>
+      <label>1. Please recall your most memorable moment (happy or unpleasant). What happened?</label>
+      <textarea name="experience_memorable" rows="3"></textarea>
+
+      <label>2. Were you mostly alone or with others? Describe a significant interaction.</label>
+      <textarea name="experience_interaction" rows="3"></textarea>
+
+      <label>3. Which mobile apps or online services did you use? Describe one instance where it helped.</label>
+      <textarea name="experience_apps" rows="3"></textarea>
+
+      <label>4. Did you encounter any unexpected troubles? How did you handle them?</label>
+      <textarea name="experience_troubles" rows="3"></textarea>
+
+      <label>5. Compared to your expectations, in what ways did your holiday exceed or fall short?</label>
+      <textarea name="experience_comparison" rows="3"></textarea>
+
+      <h3>Theme 3: Feelings, Reflection & Future Expectations</h3>
+      <label>1. If you had to summarize this holiday with a few keywords, what would they be?</label>
+      <textarea name="feeling_keywords" rows="3"></textarea>
+
+      <label>2. How satisfied are you with this holiday? What factors determined that?</label>
+      <textarea name="feeling_satisfaction" rows="3"></textarea>
+
+      <label>3. After the holiday, did you feel refreshed or tired? Why?</label>
+      <textarea name="feeling_recovery" rows="3"></textarea>
+
+      <label>4. Based on this experience, what would you do differently next year?</label>
+      <textarea name="feeling_future" rows="3"></textarea>
+
+      <label>5. If there were a “Holiday Assistant,” what problem would you want it to solve?</label>
+      <textarea name="feeling_assistant" rows="3"></textarea>
+
+      <h3>Closing</h3>
+      <label>Anything else you’d like to share about your National Day holiday?</label>
+      <textarea name="closing_comments" rows="3"></textarea>
+
+      <button type="submit">Submit Interview Answers</button>
     </form>
   </section>
 
-  <!-- 采访问题 -->
-  <section id="interview">
-    <h2>采访问题</h2>
-    <p>请在下方填写您对界面体验的详细看法，这些问题将帮助我们更深入了解用户感受。</p>
+  <!-- Survey Questionnaire -->
+  <section id="survey">
+    <h2>Part 2: Survey Questionnaire</h2>
+    <p>This short survey collects quantitative data on National Day holiday experiences. Responses are anonymous.</p>
 
-    <form action="https://formspree.io/f/你的FormID" method="POST">
-      <label>1. 您在使用过程中遇到的最大困难是什么？</label>
-      <textarea name="problem" rows="3" required></textarea>
+    <form action="https://formspree.io/f/yourFormID" method="POST">
+      <h3>Section A: Demographic Information</h3>
+      <label>1. What is your age group?</label>
+      <select name="age">
+        <option>Under 18</option>
+        <option>19–25</option>
+        <option>26–35</option>
+        <option>36–45</option>
+        <option>46 and above</option>
+      </select>
 
-      <label>2. 您认为最需要改进的地方是？</label>
-      <textarea name="improvement" rows="3" required></textarea>
+      <label>2. What is your current status?</label>
+      <select name="status">
+        <option>Student</option>
+        <option>Employed</option>
+        <option>Freelancer / Self-employed</option>
+        <option>Other</option>
+      </select>
 
-      <label>3. 哪些设计让您觉得体验良好？</label>
-      <textarea name="good" rows="3"></textarea>
+      <h3>Section B: Holiday Behavior & Evaluation</h3>
+      <label>3. What was your primary activity during the holiday?</label>
+      <textarea name="activity"></textarea>
 
-      <button type="submit">提交回答</button>
+      <label>4. What was your main mode of transportation?</label>
+      <select name="transport">
+        <option>Self-driving</option>
+        <option>High-speed rail</option>
+        <option>Airplane</option>
+        <option>Bus / Regular train</option>
+        <option>Did not travel</option>
+      </select>
+
+      <label>5. Overall satisfaction level:</label>
+      <select name="satisfaction">
+        <option>Very Satisfied</option>
+        <option>Satisfied</option>
+        <option>Neutral</option>
+        <option>Dissatisfied</option>
+        <option>Very Dissatisfied</option>
+      </select>
+
+      <label>6. How important were relaxation, family reunion, cost, or avoiding crowds to your satisfaction?</label>
+      <textarea name="factors"></textarea>
+
+      <label>7. “I felt sufficiently rested after the holiday.”</label>
+      <select name="rested">
+        <option>Strongly Agree</option>
+        <option>Agree</option>
+        <option>Neutral</option>
+        <option>Disagree</option>
+        <option>Strongly Disagree</option>
+      </select>
+
+      <label>8. How likely are you to try new leisure activities next time (e.g., camping, Citywalk)?</label>
+      <select name="new_activities">
+        <option>Very Likely</option>
+        <option>Likely</option>
+        <option>Uncertain</option>
+        <option>Unlikely</option>
+        <option>Very Unlikely</option>
+      </select>
+
+      <label>9. Which information channel do you rely on most?</label>
+      <select name="info_source">
+        <option>Social Media</option>
+        <option>Friends / Family</option>
+        <option>Travel Apps / Websites</option>
+        <option>Search Engines</option>
+        <option>Other</option>
+      </select>
+
+      <label>10. Approximate total spending during the holiday:</label>
+      <select name="spend">
+        <option>Under ¥500</option>
+        <option>¥500–¥1500</option>
+        <option>¥1501–¥3000</option>
+        <option>¥3001–¥5000</option>
+        <option>Over ¥5000</option>
+      </select>
+
+      <h3>Section C: Open-ended Questions</h3>
+      <label>12. Summarize your holiday experience in one sentence:</label>
+      <textarea name="summary"></textarea>
+
+      <label>13. How could travel or lifestyle apps be improved during long holidays?</label>
+      <textarea name="app_improve"></textarea>
+
+      <label>14. One piece of advice for next year's travelers:</label>
+      <textarea name="advice"></textarea>
+
+      <label>15. Any additional comments?</label>
+      <textarea name="comments"></textarea>
+
+      <button type="submit">Submit Survey</button>
     </form>
   </section>
 
   <footer>
-    <p>© 2025 人机交互实验组 | 由 GitHub Pages 提供支持</p>
+    <p>© 2025 HCI Research Group — Guan Huashi, Zhang Qian, Wang Mengkai | Hosted on GitHub Pages</p>
   </footer>
 </body>
 </html>
