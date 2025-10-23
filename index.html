@@ -1,274 +1,943 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HCI Experiment 2: National Day Holiday Experience Study</title>
-  <style>
-    body {
-      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
-      margin: 0;
-      background: #f4f6fa;
-      color: #333;
-      scroll-behavior: smooth;
-    }
-    header {
-      background: #2b5797;
-      color: white;
-      padding: 1em;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    nav a {
-      color: white;
-      margin: 0 1em;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    section {
-      max-width: 900px;
-      margin: 2em auto;
-      padding: 2em;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h1, h2 {
-      text-align: center;
-      color: #2b5797;
-    }
-    h3 {
-      margin-top: 1.5em;
-      color: #1e3d73;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 1em;
-    }
-    input, select, textarea, button {
-      font-size: 1em;
-      padding: 0.5em;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      width: 100%;
-    }
-    textarea {
-      resize: vertical;
-    }
-    button {
-      background-color: #2b5797;
-      color: white;
-      cursor: pointer;
-      border: none;
-      padding: 0.8em;
-      border-radius: 8px;
-    }
-    button:hover { background-color: #1e3d73; }
-    footer {
-      text-align: center;
-      background: #2b5797;
-      color: white;
-      padding: 1em;
-      margin-top: 3em;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holiday Survey Analysis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        /* 导航栏样式 */
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .nav-tab {
+            flex: 1;
+            padding: 18px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #555;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .nav-tab:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .nav-tab.active {
+            color: #2575fc;
+            border-bottom: 3px solid #2575fc;
+            background-color: rgba(37, 117, 252, 0.05);
+        }
+        
+        .nav-tab i {
+            margin-right: 10px;
+        }
+        
+        /* 内容区域样式 */
+        .content-section {
+            display: none;
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        .section-title {
+            color: #2575fc;
+            border-bottom: 2px solid #eaeaea;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .theme-title {
+            color: #6a11cb;
+            margin: 25px 0 15px;
+            font-size: 1.4rem;
+            padding-left: 10px;
+            border-left: 4px solid #6a11cb;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #2575fc;
+        }
+        
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+        
+        .answers {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .answer {
+            background-color: white;
+            padding: 12px 15px;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-left: 3px solid #6a11cb;
+        }
+        
+        .answer-number {
+            display: inline-block;
+            background-color: #6a11cb;
+            color: white;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            border-radius: 50%;
+            margin-right: 8px;
+            font-size: 0.9rem;
+            line-height: 24px;
+        }
+        
+        /* 美化项目介绍部分 */
+        .project-intro {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 15px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #2575fc;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-intro::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, rgba(37, 117, 252, 0.1) 0%, rgba(106, 17, 203, 0.1) 100%);
+            border-radius: 0 0 0 100%;
+            z-index: 0;
+        }
+        
+        .project-intro h2 {
+            color: #2575fc;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .project-intro h2 i {
+            margin-right: 15px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.8rem;
+        }
+        
+        .project-intro p {
+            margin-bottom: 20px;
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: #444;
+            position: relative;
+        }
+        
+        .project-intro p i {
+            color: #6a11cb;
+            margin-right: 10px;
+        }
+        
+        .team-members {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #eaeaea;
+            position: relative;
+        }
+        
+        .team-members h3 {
+            color: #6a11cb;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .team-members h3 i {
+            margin-right: 10px;
+        }
+        
+        .team-members ul {
+            list-style-type: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 10px;
+        }
+        
+        .team-members li {
+            padding: 12px 15px;
+            background: linear-gradient(to right, #f8f9fa, #ffffff);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .team-members li:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .team-members li i {
+            color: #2575fc;
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .university-badge {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(37, 117, 252, 0.1) 0%, rgba(106, 17, 203, 0.1) 100%);
+            border-radius: 8px;
+            border-left: 4px solid #2575fc;
+        }
+        
+        .university-badge i {
+            font-size: 2rem;
+            color: #6a11cb;
+            margin-right: 15px;
+        }
+        
+        .university-badge div {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .university-badge strong {
+            color: #2575fc;
+            font-size: 1.1rem;
+        }
+        
+        .university-badge span {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .answers {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .team-members ul {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-intro {
+                padding: 25px;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .nav-tab {
+                padding: 15px;
+            }
+        }
+    </style>
 </head>
-
 <body>
-  <header>
-    <h1>HCI Experiment 2: National Day Holiday Experience Study</h1>
-    <nav>
-      <a href="#intro">Introduction</a>
-      <a href="#interview">Interview Form</a>
-      <a href="#survey">Survey Questionnaire</a>
-    </nav>
-  </header>
+    <div class="container">
+        <header>
+            <h1>Holiday Survey Data Analysis</h1>
+            <p class="subtitle">Combined Interview and Questionnaire Responses</p>
+        </header>
+        <!-- 导航栏 -->
+        <div class="nav-tabs">
+            <div class="nav-tab active" data-target="intro">
+                <i class="fas fa-info-circle"></i> Introduction
+            </div>
+            <div class="nav-tab" data-target="interview">
+                <i class="fas fa-comments"></i> Interview
+            </div>
+            <div class="nav-tab" data-target="survey">
+                <i class="fas fa-clipboard-list"></i> Survey
+            </div>
+        </div>
 
-  <!-- Project Intro -->
-  <section id="intro">
-    <h2>Project Introduction</h2>
-    <p>
-      This project is part of the Human-Computer Interaction course at Shandong University.
-      It explores people’s planning, experiences, and reflections regarding the National Day holiday.
-      The study includes a semi-structured interview and a questionnaire.
-    </p>
-    <p><b>Team Members:</b> Guan Huashi (202200130153), Zhang Qian (202218130262), Wang Mengkai (202200130158)</p>
-  </section>
+        <!-- Introduction 内容 -->
+        <section id="intro" class="content-section active">
+            <div class="project-intro">
+                <h2><i class="fas fa-graduation-cap"></i> Project Introduction</h2>
+                <p><i class="fas fa-university"></i> This project is part of the Human-Computer Interaction course at Shandong University. It explores people's planning, experiences, and reflections regarding the National Day holiday.</p>
+                <p><i class="fas fa-clipboard-list"></i> The study includes a semi-structured interview and a questionnaire to gather comprehensive insights into holiday behaviors and preferences.</p>
+                
+                <div class="team-members">
+                    <h3><i class="fas fa-users"></i> Team Members</h3>
+                    <ul>
+                        <li><i class="fas fa-user-graduate"></i> Guan Huashi (202200130153)</li>
+                        <li><i class="fas fa-user-graduate"></i> Zhang Qian (202218130262)</li>
+                        <li><i class="fas fa-user-graduate"></i> Wang Mengkai (202200130158)</li>
+                    </ul>
+                </div>
+                
+                <div class="university-badge">
+                    <i class="fas fa-school"></i>
+                    <div>
+                        <strong>Shandong University</strong>
+                        <span>Human-Computer Interaction Course Project</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-  <!-- Interview Form -->
-  <section id="interview">
-    <h2>Part 1: Semi-Structured Interview (Fillable Form)</h2>
-    <form action="https://formspree.io/f/movkoboj" method="POST">
-      <h3>Warm-up Questions</h3>
-      <label>1. Could you briefly introduce yourself (occupation, main hobbies)?</label>
-      <textarea name="intro_self" rows="3"></textarea>
 
-      <label>2. How do you usually spend your weekends or short holidays?</label>
-      <textarea name="weekends" rows="3"></textarea>
-
-      <h3>Theme 1: Holiday Planning & Decision-Making</h3>
-      <label>1. When did you start planning for this National Day holiday? What prompted you to start?</label>
-      <textarea name="plan_start" rows="3"></textarea>
-
-      <label>2. What were the main factors you considered when deciding your plans? Which had the biggest influence?</label>
-      <textarea name="plan_factors" rows="3"></textarea>
-
-      <label>3. How did you gather ideas and information for your plans (friends, Xiaohongshu, Douyin)? Was it helpful?</label>
-      <textarea name="plan_info" rows="3"></textarea>
-
-      <label>4. If you traveled, how did you select your destination and means of transportation? Any difficulties?</label>
-      <textarea name="plan_difficulties" rows="3"></textarea>
-
-      <label>5. How much did family or friends influence your plans?</label>
-      <textarea name="plan_social" rows="3"></textarea>
-
-      <h3>Theme 2: Actual Experiences & Interactions During the Holiday</h3>
-      <label>1. Please recall your most memorable moment (happy or unpleasant). What happened?</label>
-      <textarea name="experience_memorable" rows="3"></textarea>
-
-      <label>2. Were you mostly alone or with others? Describe a significant interaction.</label>
-      <textarea name="experience_interaction" rows="3"></textarea>
-
-      <label>3. Which mobile apps or online services did you use? Describe one instance where it helped.</label>
-      <textarea name="experience_apps" rows="3"></textarea>
-
-      <label>4. Did you encounter any unexpected troubles? How did you handle them?</label>
-      <textarea name="experience_troubles" rows="3"></textarea>
-
-      <label>5. Compared to your expectations, in what ways did your holiday exceed or fall short?</label>
-      <textarea name="experience_comparison" rows="3"></textarea>
-
-      <h3>Theme 3: Feelings, Reflection & Future Expectations</h3>
-      <label>1. If you had to summarize this holiday with a few keywords, what would they be?</label>
-      <textarea name="feeling_keywords" rows="3"></textarea>
-
-      <label>2. How satisfied are you with this holiday? What factors determined that?</label>
-      <textarea name="feeling_satisfaction" rows="3"></textarea>
-
-      <label>3. After the holiday, did you feel refreshed or tired? Why?</label>
-      <textarea name="feeling_recovery" rows="3"></textarea>
-
-      <label>4. Based on this experience, what would you do differently next year?</label>
-      <textarea name="feeling_future" rows="3"></textarea>
-
-      <label>5. If there were a “Holiday Assistant,” what problem would you want it to solve?</label>
-      <textarea name="feeling_assistant" rows="3"></textarea>
-
-      <h3>Closing</h3>
-      <label>Anything else you’d like to share about your National Day holiday?</label>
-      <textarea name="closing_comments" rows="3"></textarea>
-
-      <button type="submit">Submit Interview Answers</button>
-    </form>
-  </section>
-
-  <!-- Survey Questionnaire -->
-  <section id="survey">
-    <h2>Part 2: Survey Questionnaire</h2>
-    <p>This short survey collects quantitative data on National Day holiday experiences. Responses are anonymous.</p>
-
-    <form action="https://formspree.io/f/movkoboj" method="POST">
-      <h3>Section A: Demographic Information</h3>
-      <label>1. What is your age group?</label>
-      <select name="age">
-        <option>Under 18</option>
-        <option>19–25</option>
-        <option>26–35</option>
-        <option>36–45</option>
-        <option>46 and above</option>
-      </select>
-
-      <label>2. What is your current status?</label>
-      <select name="status">
-        <option>Student</option>
-        <option>Employed</option>
-        <option>Freelancer / Self-employed</option>
-        <option>Other</option>
-      </select>
-
-      <h3>Section B: Holiday Behavior & Evaluation</h3>
-      <label>3. What was your primary activity during the holiday?</label>
-      <textarea name="activity"></textarea>
-
-      <label>4. What was your main mode of transportation?</label>
-      <select name="transport">
-        <option>Self-driving</option>
-        <option>High-speed rail</option>
-        <option>Airplane</option>
-        <option>Bus / Regular train</option>
-        <option>Did not travel</option>
-      </select>
-
-      <label>5. Overall satisfaction level:</label>
-      <select name="satisfaction">
-        <option>Very Satisfied</option>
-        <option>Satisfied</option>
-        <option>Neutral</option>
-        <option>Dissatisfied</option>
-        <option>Very Dissatisfied</option>
-      </select>
-
-      <label>6. How important were relaxation, family reunion, cost, or avoiding crowds to your satisfaction?</label>
-      <textarea name="factors"></textarea>
-
-      <label>7. “I felt sufficiently rested after the holiday.”</label>
-      <select name="rested">
-        <option>Strongly Agree</option>
-        <option>Agree</option>
-        <option>Neutral</option>
-        <option>Disagree</option>
-        <option>Strongly Disagree</option>
-      </select>
-
-      <label>8. How likely are you to try new leisure activities next time (e.g., camping, Citywalk)?</label>
-      <select name="new_activities">
-        <option>Very Likely</option>
-        <option>Likely</option>
-        <option>Uncertain</option>
-        <option>Unlikely</option>
-        <option>Very Unlikely</option>
-      </select>
-
-      <label>9. Which information channel do you rely on most?</label>
-      <select name="info_source">
-        <option>Social Media</option>
-        <option>Friends / Family</option>
-        <option>Travel Apps / Websites</option>
-        <option>Search Engines</option>
-        <option>Other</option>
-      </select>
-
-      <label>10. Approximate total spending during the holiday:</label>
-      <select name="spend">
-        <option>Under ¥500</option>
-        <option>¥500–¥1500</option>
-        <option>¥1501–¥3000</option>
-        <option>¥3001–¥5000</option>
-        <option>Over ¥5000</option>
-      </select>
-
-      <h3>Section C: Open-ended Questions</h3>
-      <label>12. Summarize your holiday experience in one sentence:</label>
-      <textarea name="summary"></textarea>
-
-      <label>13. How could travel or lifestyle apps be improved during long holidays?</label>
-      <textarea name="app_improve"></textarea>
-
-      <label>14. One piece of advice for next year's travelers:</label>
-      <textarea name="advice"></textarea>
-
-      <label>15. Any additional comments?</label>
-      <textarea name="comments"></textarea>
-
-      <button type="submit">Submit Survey</button>
-    </form>
-  </section>
-
-  <footer>
-    <p>© 2025 HCI Research Group — Guan Huashi, Zhang Qian, Wang Mengkai | Hosted on GitHub Pages</p>
-  </footer>
+        <section id="interview" class="content-section">
+            <h2 class="section-title">Part 1: Semi-Structured Interview</h2>
+            
+            <h3 class="theme-title">Warm-up Questions</h3>
+            
+            <div class="question">
+                <div class="question-text">Q1: Could you briefly introduce yourself (occupation, main hobbies)?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> I'm a college student, and my main hobby is reading novels.</div>
+                    <div class="answer"><span class="answer-number">2</span> I'm a software engineer, and I like playing basketball in my free time.</div>
+                    <div class="answer"><span class="answer-number">3</span> I'm a high school teacher, and I enjoy cooking in my free time.</div>
+                    <div class="answer"><span class="answer-number">4</span> I'm a freelance designer, and I love painting and visiting art galleries.</div>
+                    <div class="answer"><span class="answer-number">5</span> I'm a retired person, and I like growing flowers and doing square dances.</div>
+                    <div class="answer"><span class="answer-number">6</span> I'm a college student majoring in photography, and my hobby is taking photos of landscapes.</div>
+                    <div class="answer"><span class="answer-number">7</span> I'm a salesperson, and I like traveling to different cities in my free time.</div>
+                    <div class="answer"><span class="answer-number">8</span> I'm a nurse, and I like doing yoga and listening to music in my free time.</div>
+                    <div class="answer"><span class="answer-number">9</span> I'm a primary school student, and I like playing video games and reading comic books.</div>
+                    <div class="answer"><span class="answer-number">10</span> I'm a bakery owner, and I like making new pastries and trying different foods.</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q2: How do you usually spend your weekends or short holidays?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> I usually stay at home to read or go to the library on weekends/short holidays.</div>
+                    <div class="answer"><span class="answer-number">2</span> On weekends, I usually play basketball with friends or go hiking nearby.</div>
+                    <div class="answer"><span class="answer-number">3</span> On weekends, I usually cook for my family or visit my parents.</div>
+                    <div class="answer"><span class="answer-number">4</span> On weekends, I usually go to art galleries or paint at my studio.</div>
+                    <div class="answer"><span class="answer-number">5</span> On weekends, I usually take care of my flowers or dance with friends in the square.</div>
+                    <div class="answer"><span class="answer-number">6</span> On weekends, I usually go to parks or suburbs to take photos.</div>
+                    <div class="answer"><span class="answer-number">7</span> On weekends, I usually take short trips to nearby cities.</div>
+                    <div class="answer"><span class="answer-number">8</span> On weekends, I usually do yoga at home or go to a yoga studio.</div>
+                    <div class="answer"><span class="answer-number">9</span> On weekends, I usually play games for a short time and read comics with my parents.</div>
+                    <div class="answer"><span class="answer-number">10</span> On weekends, I usually test new pastry recipes in my bakery or go to food markets.</div>
+                </div>
+            </div>
+            
+            <h3 class="theme-title">Theme 1: Holiday Planning & Decision-Making</h3>
+            
+            <div class="question">
+                <div class="question-text">Q1: When did you start planning for this National Day holiday? What prompted you to start?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> I started planning 2 weeks before the holiday because my roommates talked about holiday plans.</div>
+                    <div class="answer"><span class="answer-number">2</span> I started planning 1 month before. I wanted to take a trip to relax after busy work.</div>
+                    <div class="answer"><span class="answer-number">3</span> I started planning 3 days before. I just wanted to stay with family, so no long planning.</div>
+                    <div class="answer"><span class="answer-number">4</span> I started planning 2 weeks before. There was a new art exhibition I wanted to see.</div>
+                    <div class="answer"><span class="answer-number">5</span> I didn't plan much—just followed my daily routine. I thought holidays are for relaxing.</div>
+                    <div class="answer"><span class="answer-number">6</span> I started planning 3 weeks before. I wanted to take photos of autumn scenery during the holiday.</div>
+                    <div class="answer"><span class="answer-number">7</span> I started planning 1 month before. I wanted to visit a coastal city I'd never been to.</div>
+                    <div class="answer"><span class="answer-number">8</span> I started planning 1 week before. I was busy with work before, so I planned late.</div>
+                    <div class="answer"><span class="answer-number">9</span> My parents planned it for me 2 weeks before. They said I could play games but also need to study.</div>
+                    <div class="answer"><span class="answer-number">10</span> I started planning 1 month before. The holiday has more customers, so I needed to prepare.</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q2: What were the main factors you considered when deciding your plans? Which had the biggest influence?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> Main factors: cost and distance. Cost had the biggest influence.</div>
+                    <div class="answer"><span class="answer-number">2</span> Factors: Scenery, crowd level. Crowd level mattered most—I hate crowds.</div>
+                    <div class="answer"><span class="answer-number">3</span> Factors: Family's preferences and my cooking plans. Family's preferences were most important.</div>
+                    <div class="answer"><span class="answer-number">4</span> Factors: Exhibition schedule and location. Exhibition schedule was most important.</div>
+                    <div class="answer"><span class="answer-number">5</span> Factors: My physical condition and friends' square dance schedule. Physical condition was most important.</div>
+                    <div class="answer"><span class="answer-number">6</span> Factors: Scenery quality and light conditions. Scenery quality was most important.</div>
+                    <div class="answer"><span class="answer-number">7</span> Factors: Travel cost, transportation convenience. Transportation convenience was most important.</div>
+                    <div class="answer"><span class="answer-number">8</span> Factors: Rest time and yoga class schedule. Rest time was most important—I needed to relax.</div>
+                    <div class="answer"><span class="answer-number">9</span> Factors: Study time and game time. My parents thought study time was more important.</div>
+                    <div class="answer"><span class="answer-number">10</span> Factors: Customer needs and ingredient supply. Customer needs were most important.</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q3: How did you gather ideas and information for your plans (friends, Xiaohongshu, Douyin)? Was it helpful?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> I got ideas from Xiaohongshu. It was helpful as it had detailed travel guides.</div>
+                    <div class="answer"><span class="answer-number">2</span> I asked friends and checked Xiaohongshu. Both were helpful; friends gave real experiences.</div>
+                    <div class="answer"><span class="answer-number">3</span> I talked to my family. It was helpful—we agreed on daily meals.</div>
+                    <div class="answer"><span class="answer-number">4</span> I checked the art gallery's official website and Douban art groups. Both were helpful—got exhibition details.</div>
+                    <div class="answer"><span class="answer-number">5</span> I talked to my square dance friends. It was helpful—we decided to dance together every morning.</div>
+                    <div class="answer"><span class="answer-number">6</span> I checked Xiaohongshu for autumn photography spots and asked senior photographers. Both were helpful—found a great suburban spot.</div>
+                    <div class="answer"><span class="answer-number">7</span> I used Ctrip to check flight tickets and hotels, and asked friends who'd been there. Both were helpful—got a good travel deal.</div>
+                    <div class="answer"><span class="answer-number">8</span> I checked the yoga studio's schedule online and talked to my yoga teacher. Both were helpful—found a suitable class.</div>
+                    <div class="answer"><span class="answer-number">9</span> My parents found some educational comics for me. They were helpful—I learned new things.</div>
+                    <div class="answer"><span class="answer-number">10</span> I asked regular customers and checked food trends on Xiaohongshu. Both were helpful—decided to make pumpkin pastries for autumn.</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q4: If you traveled, how did you select your destination and means of transportation? Any difficulties?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> I didn't travel; I stayed in the city.</div>
+                    <div class="answer"><span class="answer-number">2</span> I chose a small mountain village. I took a high-speed train. Difficulty: Hard to book train tickets at first.</div>
+                    <div class="answer"><span class="answer-number">3</span> I didn't travel; I stayed at home.</div>
+                    <div class="answer"><span class="answer-number">4</span> I went to the art gallery in the same city. I took the subway. No difficulties.</div>
+                    <div class="answer"><span class="answer-number">5</span> I didn't travel; I stayed in the community.</div>
+                    <div class="answer"><span class="answer-number">6</span> I chose a suburban mountain. I rented a car with classmates. Difficulty: Finding a suitable car rental service.</div>
+                    <div class="answer"><span class="answer-number">7</span> I chose a coastal city. I took a plane. Difficulty: Flight was delayed for 1 hour.</div>
+                    <div class="answer"><span class="answer-number">8</span> I didn't travel; I stayed at home and went to the yoga studio.</div>
+                    <div class="answer"><span class="answer-number">9</span> I didn't travel; I stayed at home and went to the park with my parents sometimes.</div>
+                    <div class="answer"><span class="answer-number">10</span> I didn't travel; I worked in the bakery.</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q5: How much did family or friends influence your plans?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> My roommates influenced me a lot—we planned to study together sometimes.</div>
+                    <div class="answer"><span class="answer-number">2</span> Friends influenced me a lot—we planned the trip together.</div>
+                    <div class="answer"><span class="answer-number">3</span> My spouse and kids influenced me a lot—we decided to have a family dinner every day.</div>
+                    <div class="answer"><span class="answer-number">4</span> My art friends influenced me—we went to the exhibition together.</div>
+                    <div class="answer"><span class="answer-number">5</span> My square dance partners influenced me—we did activities together.</div>
+                    <div class="answer"><span class="answer-number">6</span> My photography classmates influenced me—we went to take photos together.</div>
+                    <div class="answer"><span class="answer-number">7</span> My family influenced me—they reminded me to bring warm clothes for the coastal wind.</div>
+                    <div class="answer"><span class="answer-number">8</span> My yoga teacher influenced me—she recommended a new yoga course.</div>
+                    <div class="answer"><span class="answer-number">9</span> My parents influenced me a lot—they arranged my daily schedule.</div>
+                    <div class="answer"><span class="answer-number">10</span> My employees influenced me—they suggested making discount packages for the holiday.</div>
+                </div>
+            </div>
+            
+            <h3 class="theme-title">Theme 2: Actual Experiences & Interactions During the Holiday</h3>
+            
+            <div class="question">
+                <div class="question-text">Q1: Please recall your most memorable moment (happy or unpleasant). What happened?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> Most memorable moment: Reading a favorite novel all afternoon. It made me very relaxed.</div>
+                    <div class="answer"><span class="answer-number">2</span> Memorable moment: Watching the sunrise on the mountain with friends. It was breathtaking.</div>
+                    <div class="answer"><span class="answer-number">3</span> Memorable moment: Making dumplings with my family on National Day. Everyone laughed a lot.</div>
+                    <div class="answer"><span class="answer-number">4</span> Memorable moment: Seeing a famous painter's work at the exhibition. I was deeply touched.</div>
+                    <div class="answer"><span class="answer-number">5</span> Memorable moment: Dancing with friends in the square and watching the National Day evening show together. It was lively.</div>
+                    <div class="answer"><span class="answer-number">6</span> Memorable moment: Taking photos of the autumn sunset on the mountain. The colors were amazing.</div>
+                    <div class="answer"><span class="answer-number">7</span> Memorable moment: Walking on the beach at night, listening to the waves. It was very peaceful.</div>
+                    <div class="answer"><span class="answer-number">8</span> Memorable moment: Finishing a difficult yoga pose in class. I felt a sense of achievement.</div>
+                    <div class="answer"><span class="answer-number">9</span> Memorable moment: Playing a puzzle game with my dad and winning. We were both happy.</div>
+                    <div class="answer"><span class="answer-number">10</span> Memorable moment: A customer said my pumpkin pastry was the best they ever had. It made me happy.</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q2: Were you mostly alone or with others? Describe a significant interaction.</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> Mostly alone. Once, I met a classmate at the library and we discussed the book we read.</div>
+                    <div class="answer"><span class="answer-number">2</span> With friends. We helped each other climb the mountain and shared snacks.</div>
+                    <div class="answer"><span class="answer-number">3</span> With family. We watched movies together at night and talked about daily life.</div>
+                    <div class="answer"><span class="answer-number">4</span> With art friends. We discussed the paintings and shared our thoughts.</div>
+                    <div class="answer"><span class="answer-number">5</span> With friends. We chatted about our families after dancing.</div>
+                    <div class="answer"><span class="answer-number">6</span> With classmates. We helped each other set up cameras and shared photography skills.</div>
+                    <div class="answer"><span class="answer-number">7</span> Mostly alone. I met a local at a seafood restaurant who recommended delicious dishes.</div>
+                    <div class="answer"><span class="answer-number">8</span> Mostly alone or with yoga classmates. I chatted with classmates after class about work and life.</div>
+                    <div class="answer"><span class="answer-number">9</span> With parents. We read comics together every evening and discussed the stories.</div>
+                    <div class="answer"><span class="answer-number">10</span> With employees and customers. I talked to customers about their favorite pastries and taught employees new making skills.</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q3: Which mobile apps or online services did you use? Describe one instance where it helped.</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> I used WeChat to chat with family and Douban to find book recommendations. Douban helped me find a great novel.</div>
+                    <div class="answer"><span class="answer-number">2</span> I used Ctrip to book hotels and Mafengwo for scenic spot introductions. Ctrip helped me get a good hotel at a discount.</div>
+                    <div class="answer"><span class="answer-number">3</span> I used Meituan to buy ingredients and Douyin to learn new dishes. Meituan delivered ingredients quickly.</div>
+                    <div class="answer"><span class="answer-number">4</span> I used the art gallery's official app to get exhibition guides and WeChat to coordinate with friends. The official app helped me understand the paintings better.</div>
+                    <div class="answer"><span class="answer-number">5</span> I used WeChat to send photos to my children and Douyin to learn new square dance moves. Douyin helped me learn a new dance.</div>
+                    <div class="answer"><span class="answer-number">6</span> I used Mafengwo to find the photography spot and WeChat to share photos with my teacher. Mafengwo gave detailed directions to the spot.</div>
+                    <div class="answer"><span class="answer-number">7</span> I used Ctrip to book hotels and Didi to take taxis. Ctrip helped me change my hotel easily when I didn't like the first one.</div>
+                    <div class="answer"><span class="answer-number">8</span> I used the yoga studio's app to book classes and NetEase Cloud Music to listen to yoga music. The app made booking classes easy.</div>
+                    <div class="answer"><span class="answer-number">9</span> I used Tencent Kids to play educational games and WeChat to video call my grandparents. Tencent Kids let me play games safely.</div>
+                    <div class="answer"><span class="answer-number">10</span> I used Meituan Takeaway to receive orders and WeChat to promote holiday packages. Meituan Takeaway brought many orders.</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q4: Did you encounter any unexpected troubles? How did you handle them?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> No unexpected troubles.</div>
+                    <div class="answer"><span class="answer-number">2</span> We got lost once. We used Baidu Maps to find the right way.</div>
+                    <div class="answer"><span class="answer-number">3</span> No unexpected troubles.</div>
+                    <div class="answer"><span class="answer-number">4</span> No unexpected troubles.</div>
+                    <div class="answer"><span class="answer-number">5</span> No unexpected troubles.</div>
+                    <div class="answer"><span class="answer-number">6</span> The car had a small problem on the way back. We called the rental company and they sent someone to fix it.</div>
+                    <div class="answer"><span class="answer-number">7</span> I lost my way to a seafood market. A local helped me find the way.</div>
+                    <div class="answer"><span class="answer-number">8</span> I had a slight muscle ache after yoga. I used a massage app to book a home massage.</div>
+                    <div class="answer"><span class="answer-number">9</span> No unexpected troubles.</div>
+                    <div class="answer"><span class="answer-number">10</span> We ran out of pumpkin puree once. I called the supplier and they delivered it quickly.</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q5: Compared to your expectations, in what ways did your holiday exceed or fall short?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> It was as expected—calm and relaxing, no big surprises.</div>
+                    <div class="answer"><span class="answer-number">2</span> It exceeded expectations—the scenery was better than photos.</div>
+                    <div class="answer"><span class="answer-number">3</span> It met expectations—warm and happy family time.</div>
+                    <div class="answer"><span class="answer-number">4</span> It exceeded expectations—the exhibition was more wonderful than I thought.</div>
+                    <div class="answer"><span class="answer-number">5</span> It met expectations—relaxing and lively.</div>
+                    <div class="answer"><span class="answer-number">6</span> It exceeded expectations—the autumn scenery was more beautiful than I imagined.</div>
+                    <div class="answer"><span class="answer-number">7</span> It met expectations—the coastal city was beautiful and peaceful.</div>
+                    <div class="answer"><span class="answer-number">8</span> It met expectations—relaxing and fulfilling.</div>
+                    <div class="answer"><span class="answer-number">9</span> It was as expected—fun and had time to study.</div>
+                    <div class="answer"><span class="answer-number">10</span> It exceeded expectations—more customers than I thought, and pastries sold well.</div>
+                </div>
+            </div>
+            
+            <h3 class="theme-title">Theme 3: Feelings, Reflection & Future Expectations</h3>
+            
+            <div class="question">
+                <div class="question-text">Q1: If you had to summarize this holiday with a few keywords, what would they be?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> Keywords: Relaxing, quiet, reading.</div>
+                    <div class="answer"><span class="answer-number">2</span> Keywords: Fun, friendship, beautiful scenery.</div>
+                    <div class="answer"><span class="answer-number">3</span> Keywords: Warm, family, delicious food.</div>
+                    <div class="answer"><span class="answer-number">4</span> Keywords: Art, inspiration, friendship.</div>
+                    <div class="answer"><span class="answer-number">5</span> Keywords: Relaxing, lively, friendship.</div>
+                    <div class="answer"><span class="answer-number">6</span> Keywords: Photography, autumn scenery, teamwork.</div>
+                    <div class="answer"><span class="answer-number">7</span> Keywords: Peaceful, coastal, delicious seafood.</div>
+                    <div class="answer"><span class="answer-number">8</span> Keywords: Relaxing, yoga, achievement.</div>
+                    <div class="answer"><span class="answer-number">9</span> Keywords: Fun, family, study.</div>
+                    <div class="answer"><span class="answer-number">10</span> Keywords: Busy, rewarding, delicious pastries.</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q2: How satisfied are you with this holiday? What factors determined that?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> Very satisfied. The calm time for reading made me satisfied.</div>
+                    <div class="answer"><span class="answer-number">2</span> Very satisfied. The trip with friends and great scenery made it perfect.</div>
+                    <div class="answer"><span class="answer-number">3</span> Very satisfied. The happy time with family made me satisfied.</div>
+                    <div class="answer"><span class="answer-number">4</span> Very satisfied. The exhibition and time with friends brought me inspiration.</div>
+                    <div class="answer"><span class="answer-number">5</span> Very satisfied. The simple and happy time made me satisfied.</div>
+                    <div class="answer"><span class="answer-number">6</span> Very satisfied. The great photos and time with classmates made me happy.</div>
+                    <div class="answer"><span class="answer-number">7</span> Satisfied. The beautiful beach and good food made it a nice trip.</div>
+                    <div class="answer"><span class="answer-number">8</span> Satisfied. The yoga classes and rest helped me relax.</div>
+                    <div class="answer"><span class="answer-number">9</span> Very satisfied. I had fun and learned new things.</div>
+                    <div class="answer"><span class="answer-number">10</span> Satisfied. The busy time was rewarding with good sales.</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q3: After the holiday, did you feel refreshed or tired? Why?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> Refreshed. I had enough rest and did what I liked.</div>
+                    <div class="answer"><span class="answer-number">2</span> Refreshed. I got rid of work stress.</div>
+                    <div class="answer"><span class="answer-number">3</span> Refreshed. I felt the warmth of family.</div>
+                    <div class="answer"><span class="answer-number">4</span> Refreshed. I got new ideas for my design work.</div>
+                    <div class="answer"><span class="answer-number">5</span> Refreshed. I had a good rest and enjoyed myself.</div>
+                    <div class="answer"><span class="answer-number">6</span> A bit tired but satisfied. Taking photos required walking a lot, but it was worth it.</div>
+                    <div class="answer"><span class="answer-number">7</span> Refreshed. The peaceful environment helped me relax from work.</div>
+                    <div class="answer"><span class="answer-number">8</span> Refreshed. My body and mind felt relaxed.</div>
+                    <div class="answer"><span class="answer-number">9</span> Refreshed. I didn't have to go to school, so I felt relaxed.</div>
+                    <div class="answer"><span class="answer-number">10</span> Tired but happy. I worked a lot but felt fulfilled.</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q4: Based on this experience, what would you do differently next year?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> I'd still spend it quietly, maybe try a new bookstore.</div>
+                    <div class="answer"><span class="answer-number">2</span> I'd book tickets earlier and prepare more outdoor gear.</div>
+                    <div class="answer"><span class="answer-number">3</span> I'd learn more new dishes to cook for family.</div>
+                    <div class="answer"><span class="answer-number">4</span> I'd check exhibition information earlier and visit more small art galleries.</div>
+                    <div class="answer"><span class="answer-number">5</span> I'd still do what I like—growing flowers and square dances.</div>
+                    <div class="answer"><span class="answer-number">6</span> I'd check the car's condition before renting and bring more camera batteries.</div>
+                    <div class="answer"><span class="answer-number">7</span> I'd check flight status more often and book a hotel closer to scenic spots.</div>
+                    <div class="answer"><span class="answer-number">8</span> I'd plan my rest time better and do more gentle yoga.</div>
+                    <div class="answer"><span class="answer-number">9</span> I'd read more comics and play more puzzle games.</div>
+                    <div class="answer"><span class="answer-number">10</span> I'd prepare more ingredients in advance and hire temporary workers.</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q5: If there were a "Holiday Assistant," what problem would you want it to solve?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> I want it to recommend good books based on my reading habits.</div>
+                    <div class="answer"><span class="answer-number">2</span> I want it to predict crowd levels at scenic spots accurately.</div>
+                    <div class="answer"><span class="answer-number">3</span> I want it to recommend family-friendly recipes and deliver ingredients on time.</div>
+                    <div class="answer"><span class="answer-number">4</span> I want it to collect art exhibition information nationwide and recommend suitable ones.</div>
+                    <div class="answer"><span class="answer-number">5</span> I want it to remind me of weather changes and suitable outdoor activity time.</div>
+                    <div class="answer"><span class="answer-number">6</span> I want it to recommend photography spots based on weather and season, and provide equipment rental information.</div>
+                    <div class="answer"><span class="answer-number">7</span> I want it to provide real-time flight/hotel updates and local food recommendations.</div>
+                    <div class="answer"><span class="answer-number">8</span> I want it to arrange my rest and yoga schedule reasonably, and remind me of muscle care.</div>
+                    <div class="answer"><span class="answer-number">9</span> I want it to recommend fun educational games and comics.</div>
+                    <div class="answer"><span class="answer-number">10</span> I want it to predict customer flow and recommend popular pastry recipes.</div>
+                </div>
+            </div>
+            
+            <h3 class="theme-title">Closing</h3>
+            
+            <div class="question">
+                <div class="question-text">Anything else you'd like to share about your National Day holiday?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> No other things to share.</div>
+                    <div class="answer"><span class="answer-number">2</span> I hope there are more quiet scenic spots for holidays.</div>
+                    <div class="answer"><span class="answer-number">3</span> Family time during holidays is the most precious.</div>
+                    <div class="answer"><span class="answer-number">4</span> Art exhibitions are a great choice for holidays for art lovers.</div>
+                    <div class="answer"><span class="answer-number">5</span> Holidays don't need to be fancy; simple happiness is the best.</div>
+                    <div class="answer"><span class="answer-number">6</span> Taking photos during holidays helps me record beautiful moments.</div>
+                    <div class="answer"><span class="answer-number">7</span> Traveling alone allows me to enjoy the holiday at my own pace.</div>
+                    <div class="answer"><span class="answer-number">8</span> Rest and self-care are important for me during holidays, especially after busy work.</div>
+                    <div class="answer"><span class="answer-number">9</span> I hope next holiday I can go to an amusement park with my parents.</div>
+                    <div class="answer"><span class="answer-number">10</span> Even though I worked during the holiday, seeing customers' happy faces made it worth it.</div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="survey" class="content-section">
+            <h2 class="section-title">Part 2: Survey Questionnaire</h2>
+            
+            <h3 class="theme-title">Section A: Demographic Information</h3>
+            
+            <div class="question">
+                <div class="question-text">Q1: What is your age group?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> 18-22</div>
+                    <div class="answer"><span class="answer-number">2</span> 25-30</div>
+                    <div class="answer"><span class="answer-number">3</span> 31-40</div>
+                    <div class="answer"><span class="answer-number">4</span> 23-25</div>
+                    <div class="answer"><span class="answer-number">5</span> 60+</div>
+                    <div class="answer"><span class="answer-number">6</span> 18-22</div>
+                    <div class="answer"><span class="answer-number">7</span> 28-35</div>
+                    <div class="answer"><span class="answer-number">8</span> 26-30</div>
+                    <div class="answer"><span class="answer-number">9</span> Under 18</div>
+                    <div class="answer"><span class="answer-number">10</span> 35-45</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q2: What is your current status?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> Student</div>
+                    <div class="answer"><span class="answer-number">2</span> Employee</div>
+                    <div class="answer"><span class="answer-number">3</span> Employee (Teacher)</div>
+                    <div class="answer"><span class="answer-number">4</span> Freelancer</div>
+                    <div class="answer"><span class="answer-number">5</span> Retired</div>
+                    <div class="answer"><span class="answer-number">6</span> Student</div>
+                    <div class="answer"><span class="answer-number">7</span> Employee (Salesperson)</div>
+                    <div class="answer"><span class="answer-number">8</span> Employee (Nurse)</div>
+                    <div class="answer"><span class="answer-number">9</span> Student (Primary School)</div>
+                    <div class="answer"><span class="answer-number">10</span> Self-Employed (Bakery Owner)</div>
+                </div>
+            </div>
+            
+            <h3 class="theme-title">Section B: Holiday Behavior & Evaluation</h3>
+            
+            <div class="question">
+                <div class="question-text">Q3: What was your primary activity during the holiday?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> Reading and studying</div>
+                    <div class="answer"><span class="answer-number">2</span> Traveling with friends</div>
+                    <div class="answer"><span class="answer-number">3</span> Staying at home with family</div>
+                    <div class="answer"><span class="answer-number">4</span> Visiting art exhibitions</div>
+                    <div class="answer"><span class="answer-number">5</span> Doing square dances and growing flowers</div>
+                    <div class="answer"><span class="answer-number">6</span> Taking landscape photos in the suburbs</div>
+                    <div class="answer"><span class="answer-number">7</span> Traveling alone to a coastal city</div>
+                    <div class="answer"><span class="answer-number">8</span> Doing yoga and resting at home</div>
+                    <div class="answer"><span class="answer-number">9</span> Playing educational games and reading comics</div>
+                    <div class="answer"><span class="answer-number">10</span> Running the bakery and making new pastries</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q4: What was your main mode of transportation?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> Walking/Biking</div>
+                    <div class="answer"><span class="answer-number">2</span> High-speed Train</div>
+                    <div class="answer"><span class="answer-number">3</span> No travel (stayed at home)</div>
+                    <div class="answer"><span class="answer-number">4</span> Subway</div>
+                    <div class="answer"><span class="answer-number">5</span> Walking</div>
+                    <div class="answer"><span class="answer-number">6</span> Rented Car</div>
+                    <div class="answer"><span class="answer-number">7</span> Plane</div>
+                    <div class="answer"><span class="answer-number">8</span> Walking/Biking (to yoga studio)</div>
+                    <div class="answer"><span class="answer-number">9</span> Walking (to park with parents)</div>
+                    <div class="answer"><span class="answer-number">10</span> Driving (to bakery)</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q5: Overall satisfaction level:</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> Very Satisfied</div>
+                    <div class="answer"><span class="answer-number">2</span> Very Satisfied</div>
+                    <div class="answer"><span class="answer-number">3</span> Very Satisfied</div>
+                    <div class="answer"><span class="answer-number">4</span> Very Satisfied</div>
+                    <div class="answer"><span class="answer-number">5</span> Very Satisfied</div>
+                    <div class="answer"><span class="answer-number">6</span> Very Satisfied</div>
+                    <div class="answer"><span class="answer-number">7</span> Satisfied</div>
+                    <div class="answer"><span class="answer-number">8</span> Satisfied</div>
+                    <div class="answer"><span class="answer-number">9</span> Very Satisfied</div>
+                    <div class="answer"><span class="answer-number">10</span> Satisfied</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q6: How important were relaxation, family reunion, cost, or avoiding crowds to your satisfaction?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> Relaxation was the most important; others were less important.</div>
+                    <div class="answer"><span class="answer-number">2</span> Avoiding crowds and friendship were most important.</div>
+                    <div class="answer"><span class="answer-number">3</span> Family reunion was the most important; others were less important.</div>
+                    <div class="answer"><span class="answer-number">4</span> Pursuing inspiration was the most important; others were secondary.</div>
+                    <div class="answer"><span class="answer-number">5</span> Relaxation was the most important; others didn't matter much.</div>
+                    <div class="answer"><span class="answer-number">6</span> Scenery quality for photography was the most important.</div>
+                    <div class="answer"><span class="answer-number">7</span> Relaxation and delicious food were most important.</div>
+                    <div class="answer"><span class="answer-number">8</span> Relaxation was the most important; others were less important.</div>
+                    <div class="answer"><span class="answer-number">9</span> Fun and learning were most important.</div>
+                    <div class="answer"><span class="answer-number">10</span> Customer satisfaction and sales were most important.</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q7: "I felt sufficiently rested after the holiday."</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> Strongly Agree</div>
+                    <div class="answer"><span class="answer-number">2</span> Strongly Agree</div>
+                    <div class="answer"><span class="answer-number">3</span> Strongly Agree</div>
+                    <div class="answer"><span class="answer-number">4</span> Strongly Agree</div>
+                    <div class="answer"><span class="answer-number">5</span> Strongly Agree</div>
+                    <div class="answer"><span class="answer-number">6</span> Agree (a bit tired but satisfied)</div>
+                    <div class="answer"><span class="answer-number">7</span> Strongly Agree</div>
+                    <div class="answer"><span class="answer-number">8</span> Strongly Agree</div>
+                    <div class="answer"><span class="answer-number">9</span> Strongly Agree</div>
+                    <div class="answer"><span class="answer-number">10</span> Disagree (tired but happy)</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q8: How likely are you to try new leisure activities next time (e.g., camping, Citywalk)?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> Likely</div>
+                    <div class="answer"><span class="answer-number">2</span> Very Likely</div>
+                    <div class="answer"><span class="answer-number">3</span> Neutral</div>
+                    <div class="answer"><span class="answer-number">4</span> Very Likely</div>
+                    <div class="answer"><span class="answer-number">5</span> Unlikely</div>
+                    <div class="answer"><span class="answer-number">6</span> Very Likely</div>
+                    <div class="answer"><span class="answer-number">7</span> Very Likely</div>
+                    <div class="answer"><span class="answer-number">8</span> Likely</div>
+                    <div class="answer"><span class="answer-number">9</span> Very Likely</div>
+                    <div class="answer"><span class="answer-number">10</span> Likely</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q9: Which information channel do you rely on most?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> Social Media (Douban)</div>
+                    <div class="answer"><span class="answer-number">2</span> Social Media (Xiaohongshu)</div>
+                    <div class="answer"><span class="answer-number">3</span> E-commerce Platform (Meituan)</div>
+                    <div class="answer"><span class="answer-number">4</span> Official App (Art Gallery)</div>
+                    <div class="answer"><span class="answer-number">5</span> Social Media (Douyin)</div>
+                    <div class="answer"><span class="answer-number">6</span> Social Media (Xiaohongshu)</div>
+                    <div class="answer"><span class="answer-number">7</span> Travel App (Ctrip)</div>
+                    <div class="answer"><span class="answer-number">8</span> Lifestyle App (Yoga Studio App)</div>
+                    <div class="answer"><span class="answer-number">9</span> Kids' App (Tencent Kids)</div>
+                    <div class="answer"><span class="answer-number">10</span> E-commerce Platform (Meituan Takeaway)</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q10: Approximate total spending during the holiday:</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> Under ¥500</div>
+                    <div class="answer"><span class="answer-number">2</span> ¥2000-3000</div>
+                    <div class="answer"><span class="answer-number">3</span> ¥500-1000</div>
+                    <div class="answer"><span class="answer-number">4</span> ¥1000-1500</div>
+                    <div class="answer"><span class="answer-number">5</span> Under ¥500</div>
+                    <div class="answer"><span class="answer-number">6</span> ¥1500-2000</div>
+                    <div class="answer"><span class="answer-number">7</span> ¥3000-4000</div>
+                    <div class="answer"><span class="answer-number">8</span> ¥1000-1500</div>
+                    <div class="answer"><span class="answer-number">9</span> Under ¥500 (parents paid)</div>
+                    <div class="answer"><span class="answer-number">10</span> ¥5000-8000 (business income, personal spending: ¥1000-1500)</div>
+                </div>
+            </div>
+            
+            <h3 class="theme-title">Section C: Open-ended Questions</h3>
+            
+            <div class="question">
+                <div class="question-text">Q12: Summarize your holiday experience in one sentence:</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> It was a calm holiday filled with reading and small talks with classmates.</div>
+                    <div class="answer"><span class="answer-number">2</span> A wonderful trip with friends to a quiet mountain village, full of joy.</div>
+                    <div class="answer"><span class="answer-number">3</span> A warm holiday staying at home, cooking with family and enjoying happy moments together.</div>
+                    <div class="answer"><span class="answer-number">4</span> A meaningful holiday visiting an art exhibition with friends, gaining a lot of inspiration.</div>
+                    <div class="answer"><span class="answer-number">5</span> A simple and happy holiday, dancing with friends and taking care of flowers.</div>
+                    <div class="answer"><span class="answer-number">6</span> A tiring but rewarding holiday, taking beautiful autumn photos with classmates in the suburbs.</div>
+                    <div class="answer"><span class="answer-number">7</span> A peaceful holiday traveling alone to a coastal city, enjoying the beach and seafood.</div>
+                    <div class="answer"><span class="answer-number">8</span> A relaxing holiday doing yoga and resting, relieving work stress.</div>
+                    <div class="answer"><span class="answer-number">9</span> A fun holiday playing games and reading comics with parents, and learning new things.</div>
+                    <div class="answer"><span class="answer-number">10</span> A busy but rewarding holiday running the bakery, making popular pumpkin pastries and satisfying customers.</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q13: How could travel or lifestyle apps be improved during long holidays?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> Add book recommendation sections for people who stay at home.</div>
+                    <div class="answer"><span class="answer-number">2</span> Improve crowd prediction functions for scenic spots.</div>
+                    <div class="answer"><span class="answer-number">3</span> Add more family recipe recommendations and ensure timely ingredient delivery.</div>
+                    <div class="answer"><span class="answer-number">4</span> Collect and update art exhibition information in real time, and add professional explanations.</div>
+                    <div class="answer"><span class="answer-number">5</span> Add weather and outdoor activity reminders for the elderly.</div>
+                    <div class="answer"><span class="answer-number">6</span> Add seasonal photography spot recommendations and equipment rental service links.</div>
+                    <div class="answer"><span class="answer-number">7</span> Provide real-time updates for flights and hotels, and more local food recommendations.</div>
+                    <div class="answer"><span class="answer-number">8</span> Add personalized rest and exercise schedules, and muscle care reminders.</div>
+                    <div class="answer"><span class="answer-number">9</span> Add more educational and fun content for kids.</div>
+                    <div class="answer"><span class="answer-number">10</span> Add customer flow prediction and popular food trend recommendations for business owners.</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q14: One piece of advice for next year's travelers:</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> Don't rush—enjoy small, quiet moments even if you don't travel.</div>
+                    <div class="answer"><span class="answer-number">2</span> Book tickets and hotels in advance to avoid troubles.</div>
+                    <div class="answer"><span class="answer-number">3</span> Spend more time with family—holidays are for family bonding.</div>
+                    <div class="answer"><span class="answer-number">4</span> If you love art, don't miss good art exhibitions during holidays.</div>
+                    <div class="answer"><span class="answer-number">5</span> For the elderly, enjoy daily life during holidays—no need to travel far.</div>
+                    <div class="answer"><span class="answer-number">6</span> For photographers, check the scenery and weather in advance to get good shots.</div>
+                    <div class="answer"><span class="answer-number">7</span> When traveling alone, be prepared and don't be afraid to ask locals for help.</div>
+                    <div class="answer"><span class="answer-number">8</span> For busy workers, take time to rest and do light exercise during holidays.</div>
+                    <div class="answer"><span class="answer-number">9</span> Kids should balance play and study during holidays.</div>
+                    <div class="answer"><span class="answer-number">10</span> For business owners, prepare well in advance for holiday customer peaks.</div>
+                </div>
+            </div>
+            
+            <div class="question">
+                <div class="question-text">Q15: Any additional comments?</div>
+                <div class="answers">
+                    <div class="answer"><span class="answer-number">1</span> No additional comments.</div>
+                    <div class="answer"><span class="answer-number">2</span> It's good to travel with a small group of friends.</div>
+                    <div class="answer"><span class="answer-number">3</span> Cooking together is a great way to enhance family relationships.</div>
+                    <div class="answer"><span class="answer-number">4</span> More art exchange activities in exhibitions would be better.</div>
+                    <div class="answer"><span class="answer-number">5</span> Square dance friends make my holiday more interesting.</div>
+                    <div class="answer"><span class="answer-number">6</span> More photography communication activities during holidays would be great.</div>
+                    <div class="answer"><span class="answer-number">7</span> When traveling alone, be prepared and don't be afraid to ask locals for help.</div>
+                    <div class="answer"><span class="answer-number">8</span> Yoga is a great way to relax both body and mind.</div>
+                    <div class="answer"><span class="answer-number">9</span> I want more time to play with my parents next holiday.</div>
+                    <div class="answer"><span class="answer-number">10</span> Customers' praise is the best motivation for my work.</div>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <p>Holiday Survey Analysis &copy; 2023 | All responses are anonymized</p>
+        </footer>
+    </div>
+    <script>
+        // 导航栏切换功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const navTabs = document.querySelectorAll('.nav-tab');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            // 为每个导航标签添加点击事件
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    
+                    // 移除所有标签的active类
+                    navTabs.forEach(t => t.classList.remove('active'));
+                    // 隐藏所有内容区域
+                    contentSections.forEach(section => section.classList.remove('active'));
+                    
+                    // 添加active类到当前点击的标签
+                    this.classList.add('active');
+                    // 显示对应的内容区域
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
